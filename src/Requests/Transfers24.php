@@ -641,10 +641,12 @@ class Transfers24
     /**
      * Register payment in payment system.
      *
+     * @param string|null $transactionId
+     *
      * @return RegisterResponse
      * @throws RequestException
      */
-    public function init()
+    public function init(string $transactionId = null)
     {
         if (empty($this->customer_email)
             || empty($this->amount)
@@ -653,7 +655,7 @@ class Transfers24
             throw new RequestException('Empty email or amount');
         }
 
-        $this->transaction_id = uniqid();
+        $this->transaction_id = $transactionId ?: uniqid();
 
         $response = $this->transfers24->init($this->setFields());
 
